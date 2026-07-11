@@ -60,13 +60,13 @@ import { ChangeRequest, ChangeRequestStatus } from '../../../models/plm.models';
         <mat-card-content>
           <div class="impact-list">
             <div *ngFor="let rev of ecr?.impactedRevisions" class="impact-row" [routerLink]="['/items', rev.itemId]">
-              <div class="impact-icon" [class]="'type-bg-' + rev.itemType?.toLowerCase()">
+              <div class="impact-icon" [class]="'type-bg-' + rev.itemType.toLowerCase()">
                 <mat-icon>{{ getIcon(rev.itemType) }}</mat-icon>
               </div>
               <div class="impact-info">
                 <div class="impact-name">{{ rev.itemBusinessId }} Rev {{ rev.revisionId }} — {{ rev.itemName }}</div>
                 <div class="impact-state">
-                  <span class="state-badge" [class]="'badge-' + rev.lifecycleState?.toLowerCase()">{{ stateLabel(rev.lifecycleState) }}</span>
+                  <span class="state-badge" [class]="'badge-' + rev.lifecycleState.toLowerCase()">{{ stateLabel(rev.lifecycleState) }}</span>
                 </div>
               </div>
               <mat-icon class="open-icon">open_in_new</mat-icon>

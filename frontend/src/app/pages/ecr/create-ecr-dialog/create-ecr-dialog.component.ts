@@ -89,7 +89,7 @@ export class CreateEcrDialogComponent implements OnInit {
     this.api.createEcr({
       title: title!,
       description: description || undefined,
-      impactedRevisionIds: (impactedRevisionIds as any[]) || []
+      impactedRevisionIds: (impactedRevisionIds as unknown as any[]) || []
     }).subscribe({
       next: (ecr) => { this.loading = false; this.dialogRef.close(ecr); },
       error: (err) => { this.error = err.error?.message || 'Erreur lors de la création'; this.loading = false; }
