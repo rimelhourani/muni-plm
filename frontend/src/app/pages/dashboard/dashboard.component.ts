@@ -21,8 +21,8 @@ import { forkJoin } from 'rxjs';
     <div class="dashboard">
       <header class="page-header">
         <div>
-          <h1 class="page-title">Tableau de bord</h1>
-          <p class="page-subtitle">Vue d'ensemble de votre base de données PLM</p>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Overview of your PLM database</p>
         </div>
       </header>
 
@@ -249,7 +249,7 @@ export class DashboardComponent implements OnInit {
     { icon: 'inventory_2', color: '#818cf8', name: 'Item & Item Revision', desc: 'Un Item est le master PLM. Ses révisions (A, B, C...) portent l\'état du cycle de vie.' },
     { icon: 'account_tree', color: '#4ade80', name: 'BOM (Bill of Materials)', desc: 'Structure produit arborescente. Un assemblage contient des composants avec quantités.' },
     { icon: 'lock', color: '#fbbf24', name: 'Checkout / Checkin', desc: 'Verrouille une révision pour modification exclusive. Semblable au locking Teamcenter.' },
-    { icon: 'swap_horiz', color: '#c084fc', name: 'Cycle de Vie', desc: 'WIP → Under Review → Released → Obsolete. Seul un Approbateur peut libérer.' },
+    { icon: 'swap_horiz', color: '#c084fc', name: 'Cycle de Vie', desc: 'WIP → Under Review → Released → Obsolete. Seul un Approver peut libérer.' },
     { icon: 'change_circle', color: '#fb923c', name: 'ECR (Engineering Change)', desc: 'Demande formelle de modification liée aux Items impactés, avec workflow d\'approbation.' },
     { icon: 'folder_special', color: '#38bdf8', name: 'Home Folder', desc: 'Espace de travail personnel (My Teamcenter). Organise les Items dans des dossiers.' },
   ];

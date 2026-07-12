@@ -19,7 +19,7 @@ import { PlmApiService } from '../../../services/plm-api.service';
   ],
   template: `
     <div class="dialog-container">
-      <h2 mat-dialog-title>Nouvel Item PLM</h2>
+      <h2 mat-dialog-title>New Item PLM</h2>
       <mat-dialog-content>
         <p class="dialog-hint">Un Item sera créé avec sa Révision A (statut : En Travail).</p>
 
@@ -27,7 +27,7 @@ import { PlmApiService } from '../../../services/plm-api.service';
 
         <form [formGroup]="form">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nom de l'item *</mat-label>
+            <mat-label>Name de l'item *</mat-label>
             <input matInput formControlName="name" id="input-item-name" placeholder="ex: Moteur Brushless 2207" />
           </mat-form-field>
 
@@ -46,16 +46,16 @@ import { PlmApiService } from '../../../services/plm-api.service';
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>ID Métier (optionnel, auto-généré si vide)</mat-label>
+            <mat-label>Business ID (optionnel, auto-généré si vide)</mat-label>
             <input matInput formControlName="itemId" id="input-item-id" placeholder="ex: PRT-000099" />
           </mat-form-field>
         </form>
       </mat-dialog-content>
       <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close id="btn-cancel-create">Annuler</button>
+        <button mat-button mat-dialog-close id="btn-cancel-create">Cancel</button>
         <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid || loading" id="btn-confirm-create">
           <mat-spinner *ngIf="loading" diameter="18" class="inline-spinner"></mat-spinner>
-          <span *ngIf="!loading">Créer l'Item</span>
+          <span *ngIf="!loading">Create Item</span>
         </button>
       </mat-dialog-actions>
     </div>
@@ -101,7 +101,7 @@ export class CreateItemDialogComponent {
         this.dialogRef.close(item);
       },
       error: (err) => {
-        this.error = err.error?.message || 'Erreur lors de la création';
+        this.error = err.error?.message || 'Error creating item';
         this.loading = false;
       }
     });

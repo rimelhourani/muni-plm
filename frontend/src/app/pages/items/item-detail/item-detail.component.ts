@@ -102,8 +102,8 @@ import { forkJoin } from 'rxjs';
               </button>
               <button mat-stroked-button (click)="doCancelCheckout()" id="btn-cancel-checkout"
                       *ngIf="canCancelCheckout"
-                      matTooltip="Annuler le checkout sans sauvegarder">
-                <mat-icon>cancel</mat-icon> Annuler checkout
+                      matTooltip="Cancel le checkout sans sauvegarder">
+                <mat-icon>cancel</mat-icon> Cancel checkout
               </button>
             </ng-container>
 
@@ -561,7 +561,7 @@ export class ItemDetailComponent implements OnInit {
         this.updateRevision(rev);
         this.loadRevisionData(rev.id);
       },
-      error: err => alert(err.error?.message || 'Erreur lors de la transition')
+      error: err => alert(err.error?.message || 'Error during transition')
     });
   }
 
@@ -575,7 +575,7 @@ export class ItemDetailComponent implements OnInit {
           this.selectRevision(rev);
         });
       },
-      error: err => alert(err.error?.message || 'Erreur lors de la création de la révision')
+      error: err => alert(err.error?.message || 'Error creating item de la révision')
     });
   }
 

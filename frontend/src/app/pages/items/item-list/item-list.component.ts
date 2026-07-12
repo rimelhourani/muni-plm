@@ -32,13 +32,13 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
     <div class="page-container">
       <header class="page-header">
         <div>
-          <h1 class="page-title">Items PLM</h1>
-          <p class="page-subtitle">{{ items.length }} item(s) trouvé(s)</p>
+          <h1 class="page-title">PLM Items</h1>
+          <p class="page-subtitle">{{ items.length }} item(s) found</p>
         </div>
         <button mat-raised-button color="primary" (click)="openCreateDialog()" id="btn-create-item"
                 *ngIf="canCreate">
           <mat-icon>add</mat-icon>
-          Nouvel Item
+          New Item
         </button>
       </header>
 
@@ -48,7 +48,7 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
           <div class="search-row">
             <mat-form-field appearance="outline" class="search-field">
               <mat-icon matPrefix>search</mat-icon>
-              <input matInput [formControl]="searchCtrl" placeholder="Rechercher par nom ou ID, ex: moteur, PRT-000003..." id="input-search" />
+              <input matInput [formControl]="searchCtrl" placeholder="Search by name or ID, e.g. engine, PRT-000003..." id="input-search" />
             </mat-form-field>
           </div>
         </mat-card-content>
@@ -65,14 +65,14 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
           <table mat-table [dataSource]="items" class="plm-table">
 
             <ng-container matColumnDef="itemId">
-              <th mat-header-cell *matHeaderCellDef>ID Métier</th>
+              <th mat-header-cell *matHeaderCellDef>Business ID</th>
               <td mat-cell *matCellDef="let item">
                 <span class="item-id-badge">{{ item.itemId }}</span>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <th mat-header-cell *matHeaderCellDef>Name</th>
               <td mat-cell *matCellDef="let item">
                 <div class="item-name-cell">
                   <mat-icon class="type-icon">{{ getIcon(item.type) }}</mat-icon>
@@ -100,7 +100,7 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
             </ng-container>
 
             <ng-container matColumnDef="state">
-              <th mat-header-cell *matHeaderCellDef>État (dernier)</th>
+              <th mat-header-cell *matHeaderCellDef>State (Latest)</th>
               <td mat-cell *matCellDef="let item">
                 <span *ngIf="item.revisions.length > 0" class="state-badge" [class]="'badge-' + latestRev(item).lifecycleState.toLowerCase()">
                   {{ stateLabel(latestRev(item).lifecycleState) }}
@@ -134,7 +134,7 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
           <div *ngIf="items.length === 0" class="empty-state">
             <mat-icon>inventory_2</mat-icon>
             <p>Aucun item trouvé.</p>
-            <button mat-raised-button color="primary" (click)="openCreateDialog()" *ngIf="canCreate">Créer le premier item</button>
+            <button mat-raised-button color="primary" (click)="openCreateDialog()" *ngIf="canCreate">Create first item</button>
           </div>
         </mat-card-content>
       </mat-card>

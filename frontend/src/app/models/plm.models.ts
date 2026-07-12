@@ -108,6 +108,18 @@ export interface LoginResponse {
   user: User;
 }
 
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface RegisterResponse {
+  token: string;
+  user: User;
+}
+
 export interface CreateItemRequest {
   itemId?: string;
   name: string;

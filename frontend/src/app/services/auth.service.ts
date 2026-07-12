@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { LoginRequest, LoginResponse, User } from '../models/plm.models';
+import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User } from '../models/plm.models';
 
 const TOKEN_KEY = 'plm-token';
 const USER_KEY = 'plm-user';
@@ -24,6 +24,21 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials).pipe(
+      tap(res => {
+        localStorage.setItem(TOKEN_KEY, res.token);
+        localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        this.currentUserSubject.next(res.user);
+      })
+    );
+  }
+
+  register(data: RegisterRequest): Observable<RegisterResponse> {
+    const payload = {
+      username: data.username,
+      email: data.email,
+      password: data.password
+    };
+    return this.http.post<RegisterResponse>(`${environment.apiUrl}/auth/register`, payload).pipe(
       tap(res => {
         localStorage.setItem(TOKEN_KEY, res.token);
         localStorage.setItem(USER_KEY, JSON.stringify(res.user));
