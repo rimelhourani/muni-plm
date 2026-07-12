@@ -171,7 +171,7 @@ export class EcrDetailComponent implements OnInit {
     if (!this.ecr) return;
     this.api.updateEcrStatus(this.ecr.id, status).subscribe({
       next: ecr => { this.ecr = ecr; },
-      error: err => alert(err.error?.message || 'Erreur lors de la mise à jour')
+      error: err => alert(err.error?.message || 'Error updating ECR')
     });
   }
 

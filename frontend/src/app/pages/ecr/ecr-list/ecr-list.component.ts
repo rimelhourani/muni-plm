@@ -69,7 +69,7 @@ import { CreateEcrDialogComponent } from '../create-ecr-dialog/create-ecr-dialog
         <div *ngIf="ecrs.length === 0" class="empty-state">
           <mat-icon>change_circle</mat-icon>
           <p>Aucune ECR créée.</p>
-          <button mat-raised-button color="primary" (click)="openCreateDialog()">Créer une ECR</button>
+          <button mat-raised-button color="primary" (click)="openCreateDialog()">Create ECR</button>
         </div>
       </div>
     </div>

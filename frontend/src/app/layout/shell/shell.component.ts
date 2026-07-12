@@ -52,7 +52,7 @@ interface TreeNode {
         <!-- Navigation links -->
         <nav class="sidebar-nav">
           <a class="nav-item" routerLink="/dashboard" routerLinkActive="active" id="nav-dashboard">
-            <mat-icon>dashboard</mat-icon><span>Tableau de bord</span>
+            <mat-icon>dashboard</mat-icon><span>Dashboard</span>
           </a>
           <a class="nav-item" routerLink="/items" routerLinkActive="active" id="nav-items">
             <mat-icon>inventory_2</mat-icon><span>Tous les Items</span>
@@ -258,7 +258,7 @@ export class ShellComponent implements OnInit {
   }
 
   get roleLabel(): string {
-    const roles: any = { ADMIN: 'Administrateur', ENGINEER: 'Ingénieur', APPROVER: 'Approbateur', VIEWER: 'Lecteur' };
+    const roles: any = { ADMIN: 'Admin', ENGINEER: 'Engineer', APPROVER: 'Approver', VIEWER: 'Viewer' };
     return roles[this.auth.currentUser?.role ?? ''] ?? '';
   }
 

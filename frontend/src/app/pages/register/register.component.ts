@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule, RouterModule,
@@ -19,8 +19,8 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule, MatIconModule, MatProgressSpinnerModule
   ],
   template: `
-    <div class="login-container">
-      <div class="login-brand">
+    <div class="register-container">
+      <div class="register-brand">
         <div class="brand-icon">
           <mat-icon>precision_manufacturing</mat-icon>
         </div>
@@ -28,20 +28,26 @@ import { AuthService } from '../../services/auth.service';
         <p class="brand-tagline">PLM Learning Platform · Teamcenter Concepts</p>
       </div>
 
-      <mat-card class="login-card">
+      <mat-card class="register-card">
         <mat-card-content>
-          <h2>Login</h2>
+          <h2>Create Account</h2>
 
           <div *ngIf="error" class="error-banner">
             <mat-icon>error_outline</mat-icon>
             <span>{{ error }}</span>
           </div>
 
-          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Username</mat-label>
               <mat-icon matPrefix>person</mat-icon>
-              <input matInput formControlName="username" placeholder="e.g. engineer" />
+              <input matInput formControlName="username" placeholder="Choose a username" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email Address</mat-label>
+              <mat-icon matPrefix>email</mat-icon>
+              <input matInput formControlName="email" type="email" placeholder="your.email@example.com" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
@@ -53,31 +59,35 @@ import { AuthService } from '../../services/auth.service';
               </button>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" class="full-width login-btn" type="submit" [disabled]="loading">
-              <mat-spinner *ngIf="loading" diameter="20" class="inline-spinner"></mat-spinner>
-              <span *ngIf="!loading">Sign In</span>
-            </button>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirm Password</mat-label>
+              <mat-icon matPrefix>lock</mat-icon>
+              <input matInput [type]="showConfirmPass ? 'text' : 'password'" formControlName="confirmPassword" />
+              <button type="button" mat-icon-button matSuffix (click)="showConfirmPass = !showConfirmPass">
+                <mat-icon>{{ showConfirmPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
 
-            <div class="register-link">
-              <p>Don't have an account? <a routerLink="/register" class="link-button">Register here</a></p>
+            <div *ngIf="registerForm.get('confirmPassword')?.touched && !passwordsMatch()" class="error-text">
+              <mat-icon>info</mat-icon>
+              <span>Passwords do not match</span>
             </div>
+
+            <button mat-raised-button color="primary" class="full-width register-btn" type="submit" [disabled]="loading || registerForm.invalid">
+              <mat-spinner *ngIf="loading" diameter="20" class="inline-spinner"></mat-spinner>
+              <span *ngIf="!loading">Create Account</span>
+            </button>
           </form>
 
-          <div class="demo-accounts">
-            <p class="demo-title">Demo Accounts</p>
-            <div class="demo-grid">
-              <div class="demo-chip" *ngFor="let acc of demoAccounts" (click)="fillDemo(acc)">
-                <span class="chip-role">{{ acc.role }}</span>
-                <span class="chip-user">{{ acc.username }}</span>
-              </div>
-            </div>
+          <div class="login-link">
+            <p>Already have an account? <a routerLink="/login" class="link-button">Sign in here</a></p>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
   `,
   styles: [`
-    .login-container {
+    .register-container {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -87,7 +97,7 @@ import { AuthService } from '../../services/auth.service';
       padding: 24px;
       font-family: 'Inter', sans-serif;
     }
-    .login-brand {
+    .register-brand {
       text-align: center;
       margin-bottom: 32px;
       color: white;
@@ -104,9 +114,9 @@ import { AuthService } from '../../services/auth.service';
       box-shadow: 0 8px 32px rgba(99,102,241,0.4);
     }
     .brand-icon mat-icon { font-size: 36px; width: 36px; height: 36px; color: white; }
-    .login-brand h1 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+    .register-brand h1 { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
     .brand-tagline { opacity: 0.6; font-size: 0.875rem; margin: 8px 0 0; }
-    .login-card {
+    .register-card {
       width: 100%;
       max-width: 420px;
       border-radius: 16px !important;
@@ -116,7 +126,7 @@ import { AuthService } from '../../services/auth.service';
     mat-card-content { padding: 32px !important; }
     h2 { color: white; margin: 0 0 24px; font-size: 1.25rem; font-weight: 600; }
     .full-width { width: 100%; }
-    .login-btn { height: 48px; font-size: 1rem; font-weight: 600; border-radius: 8px !important; margin-top: 8px; }
+    .register-btn { height: 48px; font-size: 1rem; font-weight: 600; border-radius: 8px !important; margin-top: 8px; }
     .inline-spinner { display: inline-block; }
     .error-banner {
       display: flex;
@@ -130,23 +140,36 @@ import { AuthService } from '../../services/auth.service';
       margin-bottom: 16px;
       font-size: 0.875rem;
     }
-    .demo-accounts { margin-top: 24px; }
-    .demo-title { color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .demo-chip {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 10px 12px;
-      cursor: pointer;
-      transition: all 0.2s;
+    .error-text {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      align-items: center;
+      gap: 8px;
+      color: #f87171;
+      font-size: 0.875rem;
+      margin: -12px 0 16px 0;
     }
-    .demo-chip:hover { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); }
-    .chip-role { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #818cf8; }
-    .chip-user { font-size: 0.875rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+    .error-text mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .link-button {
+      color: #6366f1;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .link-button:hover {
+      color: #818cf8;
+      text-decoration: underline;
+    }
 
     :host ::ng-deep .mat-mdc-form-field .mdc-text-field { background: rgba(255,255,255,0.05) !important; }
 
@@ -189,56 +212,51 @@ import { AuthService } from '../../services/auth.service';
       color: rgba(255,255,255,0.5);
       padding-right: 8px;
     }
-    .register-link {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.6);
-    }
-    .link-button {
-      color: #6366f1;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .link-button:hover {
-      color: #818cf8;
-      text-decoration: underline;
-    }
   `]
 })
-export class LoginComponent {
-  loginForm = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
+export class RegisterComponent {
+  registerForm = this.fb.group({
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', Validators.required]
   });
+  
   loading = false;
   error = '';
   showPass = false;
-
-  demoAccounts = [
-    { role: 'Admin', username: 'admin', password: 'admin123' },
-    { role: 'Engineer', username: 'engineer', password: 'engineer123' },
-    { role: 'Approver', username: 'approver', password: 'approver123' },
-    { role: 'Viewer', username: 'viewer', password: 'viewer123' },
-  ];
+  showConfirmPass = false;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
-  fillDemo(acc: any) {
-    this.loginForm.setValue({ username: acc.username, password: acc.password });
+  passwordsMatch(): boolean {
+    const password = this.registerForm.get('password')?.value;
+    const confirmPassword = this.registerForm.get('confirmPassword')?.value;
+    return password === confirmPassword;
   }
 
-  onLogin() {
-    if (this.loginForm.invalid) return;
+  onRegister() {
+    if (this.registerForm.invalid || !this.passwordsMatch()) return;
     this.loading = true;
     this.error = '';
-    const { username, password } = this.loginForm.value;
-    this.auth.login({ username: username!, password: password! }).subscribe({
+    
+    const formValue = this.registerForm.value;
+    this.auth.register({
+      username: formValue.username!,
+      email: formValue.email!,
+      password: formValue.password!,
+      confirmPassword: formValue.confirmPassword!,
+      role: 'VIEWER'
+    }).subscribe({
       next: () => this.router.navigate(['/']),
       error: (err) => {
-        this.error = err.error?.message || 'Invalid credentials';
+        let errorMsg = 'Registration failed. Please try again.';
+        if (err.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err.error?.errors) {
+          errorMsg = Object.values(err.error.errors).join(', ');
+        }
+        this.error = errorMsg;
         this.loading = false;
       }
     });

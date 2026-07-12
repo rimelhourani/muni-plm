@@ -44,10 +44,10 @@ import { ItemRevision } from '../../../models/plm.models';
         </form>
       </mat-dialog-content>
       <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close id="btn-cancel-ecr">Annuler</button>
+        <button mat-button mat-dialog-close id="btn-cancel-ecr">Cancel</button>
         <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid || loading" id="btn-confirm-ecr">
           <mat-spinner *ngIf="loading" diameter="18" class="inline-spinner"></mat-spinner>
-          <span *ngIf="!loading">Créer l'ECR</span>
+          <span *ngIf="!loading">Create ECR</span>
         </button>
       </mat-dialog-actions>
     </div>
@@ -92,7 +92,7 @@ export class CreateEcrDialogComponent implements OnInit {
       impactedRevisionIds: (impactedRevisionIds as unknown as any[]) || []
     }).subscribe({
       next: (ecr) => { this.loading = false; this.dialogRef.close(ecr); },
-      error: (err) => { this.error = err.error?.message || 'Erreur lors de la création'; this.loading = false; }
+      error: (err) => { this.error = err.error?.message || 'Error creating item'; this.loading = false; }
     });
   }
 }
