@@ -36,7 +36,8 @@ export class AuthService {
     const payload = {
       username: data.username,
       email: data.email,
-      password: data.password
+      password: data.password,
+      role: data.role || 'VIEWER'
     };
     return this.http.post<RegisterResponse>(`${environment.apiUrl}/auth/register`, payload).pipe(
       tap(res => {

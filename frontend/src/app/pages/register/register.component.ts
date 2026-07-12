@@ -245,11 +245,18 @@ export class RegisterComponent {
       username: formValue.username!,
       email: formValue.email!,
       password: formValue.password!,
-      confirmPassword: formValue.confirmPassword!
+      confirmPassword: formValue.confirmPassword!,
+      role: 'VIEWER'
     }).subscribe({
       next: () => this.router.navigate(['/']),
       error: (err) => {
-        this.error = err.error?.message || 'Registration failed. Please try again.';
+        let errorMsg = 'Registration failed. Please try again.';
+        if (err.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err.error?.errors) {
+          errorMsg = Object.values(err.error.errors).join(', ');
+        }
+        this.error = errorMsg;
         this.loading = false;
       }
     });
