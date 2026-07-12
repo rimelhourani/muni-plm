@@ -43,13 +43,12 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
       </header>
 
       <!-- Search bar -->
-      <mat-card class="search-card">
+<mat-card class="search-card">
         <mat-card-content>
           <div class="search-row">
             <mat-form-field appearance="outline" class="search-field">
-              <mat-label>Rechercher par nom ou ID</mat-label>
               <mat-icon matPrefix>search</mat-icon>
-              <input matInput [formControl]="searchCtrl" placeholder="ex: moteur, PRT-000003..." id="input-search" />
+              <input matInput [formControl]="searchCtrl" placeholder="Rechercher par nom ou ID, ex: moteur, PRT-000003..." id="input-search" />
             </mat-form-field>
           </div>
         </mat-card-content>
@@ -193,8 +192,46 @@ import { CreateItemDialogComponent } from '../create-item-dialog/create-item-dia
     .empty-state p { margin: 0 0 16px; }
 
     :host ::ng-deep .mat-mdc-form-field .mdc-text-field { background: rgba(255,255,255,0.05) !important; }
-    :host ::ng-deep .mat-mdc-form-field label { color: rgba(255,255,255,0.5) !important; }
-    :host ::ng-deep .mat-mdc-form-field input { color: white !important; }
+
+    :host ::ng-deep .mat-mdc-form-field input {
+      color: white !important;
+      caret-color: white;
+    }
+
+    :host ::ng-deep .mat-mdc-text-field-wrapper {
+      height: 56px;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field-flex {
+      align-items: center;
+      height: 56px;
+    }
+
+    :host ::ng-deep .mdc-floating-label {
+      color: rgba(255,255,255,0.5) !important;
+      top: 50%;
+    }
+
+    :host ::ng-deep .mdc-floating-label--float-above {
+      color: rgba(255,255,255,0.7) !important;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+    :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__notch,
+    :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+      border-color: rgba(255,255,255,0.2) !important;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+      border-color: #6366f1 !important;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field-icon-prefix {
+      color: rgba(255,255,255,0.5);
+      padding-right: 8px;
+    }
   `]
 })
 export class ItemListComponent implements OnInit {

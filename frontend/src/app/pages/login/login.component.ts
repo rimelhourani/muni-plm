@@ -143,13 +143,47 @@ import { AuthService } from '../../services/auth.service';
     .demo-chip:hover { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); }
     .chip-role { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #818cf8; }
     .chip-user { font-size: 0.875rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+
     :host ::ng-deep .mat-mdc-form-field .mdc-text-field { background: rgba(255,255,255,0.05) !important; }
-    :host ::ng-deep .mat-mdc-form-field label { color: rgba(255,255,255,0.5) !important; }
-    :host ::ng-deep .mat-mdc-form-field input { color: white !important; }
+
+    :host ::ng-deep .mat-mdc-form-field input {
+      color: white !important;
+      caret-color: white;
+    }
+
+    :host ::ng-deep .mat-mdc-text-field-wrapper {
+      height: 56px;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field-flex {
+      align-items: center;
+      height: 56px;
+    }
+
+    :host ::ng-deep .mdc-floating-label {
+      color: rgba(255,255,255,0.5) !important;
+      top: 50%;
+    }
+
+    :host ::ng-deep .mdc-floating-label--float-above {
+      color: rgba(255,255,255,0.7) !important;
+    }
+
     :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
     :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__notch,
     :host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
       border-color: rgba(255,255,255,0.2) !important;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+    :host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+      border-color: #6366f1 !important;
+    }
+
+    :host ::ng-deep .mat-mdc-form-field-icon-prefix {
+      color: rgba(255,255,255,0.5);
+      padding-right: 8px;
     }
   `]
 })

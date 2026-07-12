@@ -1,8 +1,12 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 /* Global Styles */
+
 
 * {
   box-sizing: border-box;
 }
+
 
 html, body {
   height: 100%;
@@ -59,4 +63,21 @@ body {
 ::-moz-selection {
   background: rgba(99, 102, 241, 0.3);
   color: white;
+}
+
+
+
+.dark-dialog .mat-mdc-dialog-container {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.dark-dialog .mdc-dialog__surface {
+  border-radius: 16px !important;
+  background: #1e293b !important;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6);
 }
